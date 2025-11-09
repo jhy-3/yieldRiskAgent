@@ -150,3 +150,42 @@ LOG_LEVEL=info
   - Update `.env`
   - `npm start`
 - Submit a protocol description through the off-chain HTTP API, call `requestService` on-chain, and observe the agent completing the workflow end-to-end.
+
+## Sample Interaction
+
+- **User question**
+  ```
+  “Please evaluate the USDC/DAI lending pool on Aave V3 (Base network). Highlight liquidation, oracle, and governance risks.”
+  ```
+
+- **Agent reply (abridged)**
+  ```json
+  {
+    "protocolName": "Aave V3 – Base USDC/DAI Pool",
+    "overallRiskScore": 37,
+    "riskLevel": "Medium",
+    "analysisSummary": "Blue-chip lending market with mature tooling and active governance. Primary concerns are cascading liquidations during sharp USDC depegs and oracle dependency on Chainlink feeds.",
+    "riskVectors": [
+      {
+        "type": "Economic Risk",
+        "detail": "If USDC briefly depegs, concentrated stablecoin positions could see rapid liquidations, amplifying losses.",
+        "severity": "Medium"
+      },
+      {
+        "type": "Smart Contract Risk",
+        "detail": "Core contracts are audited and widely used; remaining exposure is limited to upgrade proxies and bridge adapters.",
+        "severity": "Low"
+      },
+      {
+        "type": "Centralization Risk",
+        "detail": "Emergency admins can pause markets; governance multisig still required for rapid responses.",
+        "severity": "Medium"
+      }
+    ],
+    "recommendations": [
+      "Monitor Chainlink oracle health and redundancy.",
+      "Set conservative health factors for large stablecoin borrowers.",
+      "Track governance proposals that modify LTV or liquidation thresholds."
+    ]
+  }
+  ```
